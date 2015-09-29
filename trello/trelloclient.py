@@ -119,13 +119,15 @@ class TrelloClient(object):
         obj = self.fetch_json('/boards/' + board_id)
         return Board.from_json(self, json_obj=obj)
 
-    def add_board(self, board_name):
+    def add_board(self, board_name, organization_id=None):
         '''Create board
 
         :rtype: Board
         '''
-        obj = self.fetch_json('/boards', http_method='POST',
-                              post_args={'name': board_name})
+        post_args = {'name': board_name}
+        if organization_id:
+            post_args['idOrganization'] = organization_id
+        obj = self.fetch_json('/boards', http_method='POST', post_args=post_args)
         return Board.from_json(self, json_obj=obj)
 
     def get_member(self, member_id):
