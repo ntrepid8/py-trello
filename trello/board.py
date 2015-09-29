@@ -4,6 +4,7 @@ from trello.member import Member
 from trello.card import Card
 from trello.trellolist import List
 from trello.label import Label
+import json
 
 
 class Board(object):
@@ -284,3 +285,6 @@ class Board(object):
             '/boards/' + self.id + '/actions',
             query_params={'filter': action_filter})
         self.actions = json_obj
+
+    def as_json(self):
+        return json.dumps(self.client.fetch_json('/boards/' + self.id))
