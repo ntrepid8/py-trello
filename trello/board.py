@@ -27,11 +27,14 @@ class Board(object):
         """
         if organization is None:
             self.client = client
+            self.organization_id = None
         else:
             self.organization = organization
+            self.organization_id = organization.id
             self.client = organization.client
         self.id = board_id
         self.name = name
+        self.json_obj = None
 
     @classmethod
     def from_json(cls, trello_client=None, organization=None, json_obj=None):
@@ -56,6 +59,8 @@ class Board(object):
         board.description = json_obj.get('desc', '').encode('utf-8')
         board.closed = json_obj['closed']
         board.url = json_obj['url']
+        board.organization_id = json_obj['idOrganization']
+        board.json_obj = json_obj
         return board
 
     def __repr__(self):
